@@ -3,8 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class LineManager : MonoBehaviour
 {
-    public GameObject Projectile;
-    public Vector3 Velocity;
+    public ProjectileLauncher launcher;
     public int MaxPositions = 60;
     public float Drag = 0f;
 
@@ -40,16 +39,16 @@ public class LineManager : MonoBehaviour
 
         return points;
     }
-
     void Update()
     {
-        if (Projectile == null) return;
+        if (launcher == null) return;
 
-        Vector3 startPosition = Projectile.transform.position;
+        Vector3 startPosition = launcher.firePoint.position;
+        Vector3 startVelocity = launcher.firePoint.forward * launcher.launchForce;
 
         Vector3[] trajectory = GetTrajectoryPredictionPoints(
             startPosition,
-            Velocity,
+            startVelocity,
             Drag,
             MaxPositions
         );

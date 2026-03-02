@@ -1,34 +1,43 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ProjectileLauncher : MonoBehaviour
-{   
+{
     public GameObject LaunchingProjectile;
     public Transform firePoint;
-
-   //launch force should be the same as velocity
     public float launchForce;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private PlayerControls controls;
+
+    private void Awake()
     {
-        
+        controls = new PlayerControls();
+
+        controls.Player.Fire.performed += ctx => LaunchObject();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        controls.Enable();
     }
-    void LaunchObject()
+
+    private void OnDisable()
     {
-    Rigidbody rb = LaunchingProjectile.GetComponent<Rigidbody>();
-    if (rb != null)
-        {
-            // Launch forward
-            rb.AddForce(firePoint.forward * launchForce, ForceMode.Impulse);
-        }
-        else
-        {
-            Debug.LogWarning("Projectile has no Rigidbody!");
-        }
+        controls.Disable();
     }
+
+     public void LaunchObject()
+     {
+         GameObject projectile = Instantiate(LaunchingProjectile, firePoint.position, firePoint.rotation);
+
+         Rigidbody rb = projectile.GetComponent<Rigidbody>();
+         if (rb != null)
+         {
+            rb.linearVelocity = firePoint.forward * launchForce;
+        }
+         else
+         {
+             Debug.LogWarning("Projectile has no Rigidbody!");
+         }
+     }
 }
