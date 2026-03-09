@@ -5,8 +5,13 @@ using UnityEngine.XR.Hands;
 
 public class PeaceSpawner : MonoBehaviour
 {
+
     [Header("Object")]
     public GameObject objPrefab;
+
+
+    [Header("Projectile Launcher")]
+    public ProjectileLauncher ProjectileLauncher;
 
     [Header("Hand to Trigger")]
     public bool useRightHand = true;
@@ -94,12 +99,16 @@ public class PeaceSpawner : MonoBehaviour
 
     void SpawnObjInFrontOfPalm(XRHand hand)
     {
-        var palm = hand.GetJoint(XRHandJointID.Palm);
-        if (!palm.TryGetPose(out Pose palmPose)) return;
+        /*  var palm = hand.GetJoint(XRHandJointID.Palm); 
+          if (!palm.TryGetPose(out Pose palmPose)) return;
 
-        Vector3 spawnPos = palmPose.position + (palmPose.rotation * Vector3.forward * 0.25f);
-        Quaternion spawnRot = Quaternion.identity;
+          Vector3 spawnPos = palmPose.position + (palmPose.rotation * Vector3.forward * 0.25f);
+          Quaternion spawnRot = Quaternion.identity;
 
-        Instantiate(objPrefab, spawnPos, spawnRot);
-    }
+          Instantiate(objPrefab, spawnPos, spawnRot);
+        */
+        ProjectileLauncher.LaunchObject();
+
+
+}
 }

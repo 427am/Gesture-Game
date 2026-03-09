@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Balloon : MonoBehaviour
 {
+    public AudioClip audio;
+    public ScoreText Text;
     public GameObject Confetti;
     public float interval = 3f;
     private float timer;
@@ -22,6 +24,7 @@ public class Balloon : MonoBehaviour
         {
             // Spawn the confetti at the balloon's position
             Instantiate(Confetti, transform.position, Quaternion.identity);
+            AudioSource.PlayClipAtPoint(audio, transform.position);
             Destroy(gameObject);
 
             // Optional: Destroy the balloon after popping

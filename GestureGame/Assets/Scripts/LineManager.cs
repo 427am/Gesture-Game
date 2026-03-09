@@ -12,6 +12,7 @@ public class LineManager : MonoBehaviour
     void Start()
     {
         line = GetComponent<LineRenderer>();
+        line.useWorldSpace = true;
     }
 
     public Vector3[] GetTrajectoryPredictionPoints(
@@ -39,11 +40,12 @@ public class LineManager : MonoBehaviour
 
         return points;
     }
+
     void Update()
     {
         if (launcher == null) return;
 
-        Vector3 startPosition = launcher.firePoint.position;
+        Vector3 startPosition = launcher.transform.position;
         Vector3 startVelocity = launcher.firePoint.forward * launcher.launchForce;
 
         Vector3[] trajectory = GetTrajectoryPredictionPoints(
@@ -57,3 +59,5 @@ public class LineManager : MonoBehaviour
         line.SetPositions(trajectory);
     }
 }
+
+
