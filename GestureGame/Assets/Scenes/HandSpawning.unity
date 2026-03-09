@@ -386,7 +386,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2055969164}
   - component: {fileID: 2055969165}
-  - component: {fileID: 2055969166}
+  - component: {fileID: 2055969167}
+  - component: {fileID: 2055969168}
   m_Layer: 0
   m_Name: GestureSpawner
   m_TagString: Untagged
@@ -421,14 +422,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e03aa7e6aa57e4098975ad51661d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objPrefab: {fileID: 7688522524277800659, guid: b3ae7130e66bff04a97e4916f5e85623, type: 3}
-  useRightHand: 1
+  objPrefab: {fileID: 4623778602969188406, guid: daee213e097b34049837896ce670ae9b, type: 3}
+  useRightHand: 0
   fingerExtendedMin: 0.11
   fingerCurledMax: 0.08
   indexMiddleSeparationMin: 0.04
   thumbExtendedMax: 0.11
   cooldownSeconds: 0.8
---- !u!114 &2055969166
+--- !u!114 &2055969167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055969162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d641a152ba9a5fd44bfff6438dcf7234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objPrefab: {fileID: 8033169592976487343, guid: 3d4be483822459e44b7223780ace5cc5, type: 3}
+  useRightHand: 1
+  fingerExtendedMin: 0.095
+  fingerCurledMax: 0.075
+  thumbExtendedMin: 0.09
+  palmUpDotThreshold: 0.5
+  cooldownSeconds: 0.8
+--- !u!114 &2055969168
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -440,12 +460,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2cb56105ca88d41a37f462be256c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objPrefab: {fileID: 8033169592976487343, guid: 3d4be483822459e44b7223780ace5cc5, type: 3}
-  useRightHand: 1
-  thumbExtendedMin: 0.07
-  otherFingerCurledMax: 0.14
-  thumbUpDotMin: 0.25
-  requiredHoldSeconds: 0.15
+  objPrefab: {fileID: 7688522524277800659, guid: b3ae7130e66bff04a97e4916f5e85623, type: 3}
+  useRightHand: 0
+  thumbExtendedMin: 0.085
+  otherFingerCurledMax: 0.095
+  thumbUpDotMin: 0.2
+  requiredHoldSeconds: 0.1
   cooldownSeconds: 0.8
 --- !u!1 &2085677333
 GameObject:

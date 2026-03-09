@@ -12,12 +12,12 @@ public class ThumbsUpSpawner : MonoBehaviour
     public bool useRightHand = true;
 
     [Header("Gesture thresholds")]
-    public float thumbExtendedMin = 0.07f;
-    public float otherFingerCurledMax = 0.14f;
-    public float thumbUpDotMin = 0.25f;
+    public float thumbExtendedMin = 0.06f;
+    public float otherFingerCurledMax = 0.095f;
+    public float thumbUpDotMin = 0.2f;
 
     [Header("Gesture timing")]
-    public float requiredHoldSeconds = 0.15f;
+    public float requiredHoldSeconds = 0.1f;
 
     [Header("Cooldown")]
     public float cooldownSeconds = 0.8f;
@@ -25,13 +25,13 @@ public class ThumbsUpSpawner : MonoBehaviour
     private XRHandSubsystem handSubsystem;
     private bool wasThumbsUp = false;
     private float lastSpawnTime = -999f;
-
     private float thumbsUpStartTime = -1f;
 
     void Start()
     {
         var subsystems = new List<XRHandSubsystem>();
         SubsystemManager.GetSubsystems(subsystems);
+
         if (subsystems.Count > 0)
             handSubsystem = subsystems[0];
     }
@@ -41,6 +41,7 @@ public class ThumbsUpSpawner : MonoBehaviour
         if (handSubsystem == null || objPrefab == null) return;
 
         XRHand hand = useRightHand ? handSubsystem.rightHand : handSubsystem.leftHand;
+
         if (!hand.isTracked) return;
 
         bool isThumbsUpNow = CheckThumbsUp(hand);
@@ -55,7 +56,9 @@ public class ThumbsUpSpawner : MonoBehaviour
             thumbsUpStartTime = -1f;
         }
 
-        bool heldLongEnough = thumbsUpStartTime >= 0f && (Time.time - thumbsUpStartTime) >= requiredHoldSeconds;
+        bool heldLongEnough =
+            thumbsUpStartTime >= 0f &&
+            (Time.time - thumbsUpStartTime) >= requiredHoldSeconds;
 
         if (heldLongEnough && !wasThumbsUp && Time.time >= lastSpawnTime + cooldownSeconds)
         {
@@ -90,22 +93,31 @@ public class ThumbsUpSpawner : MonoBehaviour
         if (!ringTip.TryGetPose(out Pose ringPose)) return false;
         if (!littleTip.TryGetPose(out Pose littlePose)) return false;
 
+        // ---- THUMB EXTENDED ----
         float thumbDist = Vector3.Distance(thumbTipPose.position, palmPose.position);
         bool thumbExtended = thumbDist >= thumbExtendedMin;
 
+        // ---- OTHER FINGERS CURL CHECK ----
         float indexDist = Vector3.Distance(indexPose.position, palmPose.position);
         float middleDist = Vector3.Distance(middlePose.position, palmPose.position);
         float ringDist = Vector3.Distance(ringPose.position, palmPose.position);
         float littleDist = Vector3.Distance(littlePose.position, palmPose.position);
 
-        bool otherFingersCurled =
-            indexDist <= otherFingerCurledMax &&
-            middleDist <= otherFingerCurledMax &&
-            ringDist <= otherFingerCurledMax &&
-            littleDist <= otherFingerCurledMax;
+        Vector3 indexDir = (indexPose.position - palmPose.position).normalized;
+        Vector3 middleDir = (middlePose.position - palmPose.position).normalized;
+        Vector3 ringDir = (ringPose.position - palmPose.position).normalized;
+        Vector3 littleDir = (littlePose.position - palmPose.position).normalized;
 
+        bool indexCurled = indexDist <= otherFingerCurledMax && Vector3.Dot(indexDir, palmPose.forward) < 0.3f;
+        bool middleCurled = middleDist <= otherFingerCurledMax && Vector3.Dot(middleDir, palmPose.forward) < 0.3f;
+        bool ringCurled = ringDist <= otherFingerCurledMax && Vector3.Dot(ringDir, palmPose.forward) < 0.3f;
+        bool littleCurled = littleDist <= otherFingerCurledMax && Vector3.Dot(littleDir, palmPose.forward) < 0.3f;
+
+        bool otherFingersCurled = indexCurled && middleCurled && ringCurled && littleCurled;
+
+        // ---- THUMB POINTING UP (world space) ----
         Vector3 thumbDir = (thumbTipPose.position - thumbProxPose.position).normalized;
-        float upDot = Vector3.Dot(thumbDir, palmPose.up);
+        float upDot = Vector3.Dot(thumbDir, Vector3.up);
         bool thumbPointingUp = upDot >= thumbUpDotMin;
 
         return thumbExtended && otherFingersCurled && thumbPointingUp;
@@ -114,9 +126,13 @@ public class ThumbsUpSpawner : MonoBehaviour
     void SpawnInFrontOfPalm(XRHand hand)
     {
         var palm = hand.GetJoint(XRHandJointID.Palm);
+
         if (!palm.TryGetPose(out Pose palmPose)) return;
 
-        Vector3 spawnPos = palmPose.position + (palmPose.rotation * Vector3.forward * 0.25f);
+        Vector3 spawnPos =
+            palmPose.position +
+            (palmPose.rotation * Vector3.forward * 0.25f);
+
         Instantiate(objPrefab, spawnPos, Quaternion.identity);
     }
 }
