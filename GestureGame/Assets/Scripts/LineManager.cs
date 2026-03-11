@@ -12,7 +12,7 @@ public class LineManager : MonoBehaviour
     void Start()
     {
         line = GetComponent<LineRenderer>();
-        line.useWorldSpace = true;
+        //line.useWorldSpace = true;
     }
 
     public Vector3[] GetTrajectoryPredictionPoints(
