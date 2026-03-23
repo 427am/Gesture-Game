@@ -610,8 +610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c34e5c1b36675c4081edd7964640a64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchingProjectile: {fileID: 4180732376632708956, guid: e09c4209b2f4b034e9d521019f525b1d, type: 3}
-  launchForce: 25
+  launchingProjectile: {fileID: 6797730302878366181, guid: 3c2863e59bc36bd4bb87e9ad0879653d, type: 3}
+  launchForce: 15
 --- !u!1001 &1833508852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -732,6 +732,7 @@ GameObject:
   - component: {fileID: 2055969164}
   - component: {fileID: 2055969165}
   - component: {fileID: 2055969166}
+  - component: {fileID: 2055969167}
   m_Layer: 0
   m_Name: GestureSpawner
   m_TagString: Untagged
@@ -767,8 +768,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objPrefab: {fileID: 7688522524277800659, guid: b3ae7130e66bff04a97e4916f5e85623, type: 3}
-  ProjectileLauncher: {fileID: 1597694824}
   useRightHand: 1
+  ProjectileLauncher: {fileID: 1597694824}
   fingerExtendedMin: 0.11
   fingerCurledMax: 0.08
   indexMiddleSeparationMin: 0.04
@@ -788,10 +789,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objPrefab: {fileID: 8033169592976487343, guid: 3d4be483822459e44b7223780ace5cc5, type: 3}
   useRightHand: 1
+  ProjectileLauncher: {fileID: 1597694824}
   thumbExtendedMin: 0.07
   otherFingerCurledMax: 0.14
   thumbUpDotMin: 0.25
   requiredHoldSeconds: 0.15
+  cooldownSeconds: 0.8
+--- !u!114 &2055969167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055969162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea83526749629ad449291ed99230a9ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objPrefab: {fileID: 6797730302878366181, guid: 3c2863e59bc36bd4bb87e9ad0879653d, type: 3}
+  useRightHand: 1
+  ProjectileLauncher: {fileID: 1597694824}
+  fingerExtendedMin: 0.095
+  fingerCurledMax: 0.075
+  thumbExtendedMin: 0.09
+  palmUpDotThreshold: 0.5
   cooldownSeconds: 0.8
 --- !u!1 &2085677333
 GameObject:
