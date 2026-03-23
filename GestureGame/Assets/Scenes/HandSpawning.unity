@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e03aa7e6aa57e4098975ad51661d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objPrefab: {fileID: 7071691621238176562, guid: 68cf647023090224bbbbc894933cf44f, type: 3}
+  objPrefab: {fileID: 8033169592976487343, guid: 3d4be483822459e44b7223780ace5cc5, type: 3}
   useRightHand: 1
   fingerExtendedMin: 0.11
   fingerCurledMax: 0.08
@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2cb56105ca88d41a37f462be256c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objPrefab: {fileID: 7071691621238176562, guid: 68cf647023090224bbbbc894933cf44f, type: 3}
+  objPrefab: {fileID: 7688522524277800659, guid: b3ae7130e66bff04a97e4916f5e85623, type: 3}
   useRightHand: 1
   thumbExtendedMin: 0.07
   otherFingerCurledMax: 0.14
@@ -457,15 +457,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2055969162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d2cb56105ca88d41a37f462be256c71, type: 3}
+  m_Script: {fileID: 11500000, guid: d641a152ba9a5fd44bfff6438dcf7234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   objPrefab: {fileID: 7071691621238176562, guid: 68cf647023090224bbbbc894933cf44f, type: 3}
   useRightHand: 1
-  thumbExtendedMin: 0.06
-  otherFingerCurledMax: 0.095
-  thumbUpDotMin: 0.2
-  requiredHoldSeconds: 0.1
+  fingerExtendedMin: 0.095
+  fingerCurledMax: 0.075
+  thumbExtendedMin: 0.09
+  palmUpDotThreshold: 0.5
   cooldownSeconds: 0.8
 --- !u!1 &2085677333
 GameObject:
