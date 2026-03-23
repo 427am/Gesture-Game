@@ -1,63 +1,49 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
 public class LineManager : MonoBehaviour
 {
     public ProjectileLauncher launcher;
-    public int MaxPositions = 60;
-    public float Drag = 0f;
+
+    public int steps = 60;
+    public float timeStep = 0.05f;
 
     private LineRenderer line;
 
-    void Start()
+    void Awake()
     {
         line = GetComponent<LineRenderer>();
-        //line.useWorldSpace = true;
-    }
 
-    public Vector3[] GetTrajectoryPredictionPoints(
-        Vector3 startPos,
-        Vector3 startVelocity,
-        float drag,
-        int steps)
-    {
-        Vector3 pos = startPos;
-        Vector3 vel = startVelocity;
-        Vector3 acc = Physics.gravity;
-
-        float dt = Time.fixedDeltaTime;
-        Vector3[] points = new Vector3[steps];
-        points[0] = startPos;
-
-        for (int i = 1; i < steps; i++)
-        {
-            vel += acc * dt;
-            vel *= 1f / (1f + drag * dt);
-            pos += vel * dt;
-
-            points[i] = pos;
-        }
-
-        return points;
+        // You REQUIRE this off
+        line.useWorldSpace = false;
     }
 
     void Update()
     {
         if (launcher == null) return;
 
-        Vector3 startPosition = launcher.transform.position;
-        Vector3 startVelocity = launcher.firePoint.forward * launcher.launchForce;
+        Vector3 startPos = launcher.GetLaunchPosition();   // world space
+        Vector3 velocity = launcher.GetLaunchVelocity();   // world space
 
-        Vector3[] trajectory = GetTrajectoryPredictionPoints(
-            startPosition,
-            startVelocity,
-            Drag,
-            MaxPositions
-        );
+        DrawTrajectory(startPos, velocity);
+    }
 
-        line.positionCount = trajectory.Length;
-        line.SetPositions(trajectory);
+    void DrawTrajectory(Vector3 startPos, Vector3 velocity)
+    {
+        Vector3 pos = startPos;
+        Vector3 vel = velocity;
+
+        line.positionCount = steps;
+
+        for (int i = 0; i < steps; i++)
+        {
+            // ✅ CONVERT WORLD → LOCAL SPACE
+            Vector3 localPos = transform.InverseTransformPoint(pos);
+
+            line.SetPosition(i, localPos);
+
+            vel += Physics.gravity * timeStep;
+            pos += vel * timeStep;
+        }
     }
 }
-
-
